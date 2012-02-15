@@ -175,7 +175,7 @@ static int DisplayCmdOutput (struct genmon_t *p_poPlugin)
     {
         /* Get the text */
         char *buf = g_strndup (begin + 5, end - begin - 5);
-        gtk_label_set_markup (GTK_LABEL (poMonitor->wValue), buf);
+        gtk_label_set_text (GTK_LABEL (poMonitor->wValue), buf);
         g_free (buf);
 
         gtk_widget_show (poMonitor->wValue);
@@ -183,7 +183,24 @@ static int DisplayCmdOutput (struct genmon_t *p_poPlugin)
         newVersion=1;
     }
     else
-        gtk_widget_hide (poMonitor->wValue);
+    {
+        /* Test if the result is a Pango Text */
+        begin=strstr(p_poPlugin->acValue, "<xml>");
+        end=strstr(p_poPlugin->acValue, "</xml>");
+        if (begin && end && begin < end)
+        {
+            /* Get the text */
+            char *buf = g_strndup (begin + 5, end - begin - 5);
+            gtk_label_set_markup (GTK_LABEL (poMonitor->wValue), buf);
+            g_free (buf);
+
+            gtk_widget_show (poMonitor->wValue);
+
+            newVersion=1;
+        }
+        else
+            gtk_widget_hide (poMonitor->wValue);
+    }
 
     /* Test if the result is a Bar */
     begin=strstr(p_poPlugin->acValue, "<bar>");

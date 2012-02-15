@@ -4,7 +4,8 @@ Generic Monitor XFce4 panel plugin (GenMon)
 
 1 -	Description
 	-----------
-The GenMon plugin cyclically spawns the indicated script/program, captures its output and displays the result into the panel.
+The GenMon plugin cyclically spawns the indicated script/program, captures its
+output and displays the result into the panel.
 
 
 2 -	Installation
@@ -41,8 +42,8 @@ If the plugin displays XXX it means that the spawn of the command has failed.
 4 -	Extra
 	-----
 
-A simple Perl script, disktemp, that retrieves the temperature of a disk
-using the smartmontools is provided.
+A simple Perl script, disktemp, that retrieves the temperature of a disk using
+the smartmontools is provided.
 To install it, as root you may do:
 	- cp disktemp /usr/local/bin
 	- cd /usr/local/bin
@@ -51,8 +52,8 @@ To install it, as root you may do:
 	- chmod u+s 		disktemp
 Then run (you need to have smartd/smarctl installed on your system)
 	- disktemp <disk>	(e.g. /dev/hda)
-If this works, you should be able to use GenMon for continually monitoring
-your disk temperature.
+If this works, you should be able to use GenMon for continually monitoring your
+disk temperature.
 
 5 -	New Features
 	-----------
@@ -61,10 +62,11 @@ The new version of genmon plugin can also display an icon (which can be a
 clickable icon), a tooltip, a text and a bar.
 
 To display these items, the script called by genmon should return a simple
-XML string.
+pseudo-XML string.
 
-The XML tags which can be used are :
-<txt>Text to display</txt>
+The pseudo-XML tags which can be used are :
+<txt>Plaintext to display</txt>
+<xml><em>Pango</em>-formatted markup to display.</xml>
 <img>Path to the image to display</img>
 <tool>Tooltip text</tool>
 <bar>Pourcentage to display in the bar</bar>
@@ -73,9 +75,11 @@ The XML tags which can be used are :
 If None of the tags are detected in the result of the command, the plugin
 returns to its original behaviour (displaying the result of the command).
 
-No tag is mandatory: for instance, you can display a tooltip without and image...
+No tag is mandatory: for instance, you can display a tooltip without and image.
 
-The text between the <txt> and </txt> tag can use pango markup for style and color.
+The text between the <xml> and </xml> tag can use pango markup for style and
+color, whereas the text between <txt> and </txt> is used without interpretation.
+You can only use one or the other.
 
 Here's a simple example of a plugin displaying the Temp of the CPU in the panel
 (with an icon) and the Freq in a Tooltip:

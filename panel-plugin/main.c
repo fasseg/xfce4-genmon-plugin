@@ -237,8 +237,13 @@ static int DisplayCmdOutput (struct genmon_t *p_poPlugin)
     /* Test if a ToolTip is given */
     begin=strstr(p_poPlugin->acValue, "<tool>");
     end=strstr(p_poPlugin->acValue, "</tool>");
-    if (begin && end && begin < end)
-        acToolTips = g_strndup (begin + 6, end - begin - 6);
+    if (begin && end && begin < end) 
+    {
+        char *escaped;
+        escaped = g_strndup(begin + 6, end - begin - 6);
+        acToolTips = g_strcompress(escaped);
+        g_free(escaped);
+    }
     else
         acToolTips = g_strdup_printf (acToolTips, "%s\n"
             "----------------\n"
